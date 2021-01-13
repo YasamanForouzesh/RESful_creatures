@@ -1,0 +1,8 @@
+<h2>Welcome to prehistoric_creatures page</h2>
+<ul>
+
+    <% datas.forEach(data=>{%>
+        <li>The type of this prehistoric creatures is <%= data.type%></li>
+        <img src="<%= data.img_url%>">
+    <%})%>
+</ul>
