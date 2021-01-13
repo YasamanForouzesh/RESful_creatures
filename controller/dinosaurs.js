@@ -2,7 +2,7 @@ const express=require('express')
 const router=express.Router()
 const fs=require('fs')
 
-router.get('',(req,res)=>{
+router.get('/',(req,res)=>{
     let dinosaurs=fs.readFileSync('./dinosaurs.json')
     let dinoData=JSON.parse(dinosaurs)
     res.render('dinosaurs/index.ejs',{myDinos:dinoData})
@@ -36,6 +36,17 @@ router.post('',(req,res)=>{
     console.log("inside")
     console.log(req.body)
 
+})
+
+router.delete('/:idx',(req,res)=>{
+    let dinosaurs=fs.readFileSync('./dinosaurs.json')
+    let dinoData=JSON.parse(dinosaurs)
+    // remove the deleted dinosaur from the dinosaurs array
+    dinoData.splice(req.params.idx,1)
+    // save the new dinosaurs to the data.json filr
+    fs.writeFileSync('./dinosaurs.json',JSON.stringify(dinoData))
+    console.log('delete')
+    res.redirect('/dinosaurs')
 })
 
 module.exports=router
