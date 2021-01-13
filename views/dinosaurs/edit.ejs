@@ -1,0 +1,9 @@
+<form action="/dinosaurs/<%= dinoIdx%>/?_method=PUT" method="POST">
+    <label for="dinosaurName">Name</label>
+    <!-- name is a key of the json -->
+    <input type="text" name="name" id="dinosaurName" placeholder="<%= myDino.name%>">
+    <label for="dinosaurType">Type</label>
+    <input type="text" id="dinosaurType" name=type value="<%= myDino.type%>">
+
+    <input type="submit" value="update dino">
+</form>

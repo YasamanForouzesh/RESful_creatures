@@ -1,3 +1,4 @@
+const { Router } = require('express')
 const express=require('express')
 const router=express.Router()
 const fs=require('fs')
@@ -10,7 +11,26 @@ router.get('/',(req,res)=>{
 router.get('/new',(req,res)=>{
     res.render('dinosaurs/new.ejs')
 })
-
+router.get('/edit/:idx',(req,res)=>{
+    let dinosaurs=fs.readFileSync('./dinosaurs.json')
+    console.log(dinosaurs)
+    let dinoData=JSON.parse(dinosaurs)
+    //get array index from url parameter
+    let dinoIndex=parseInt(req.params.idx)
+    //render page with data of the specified
+    res.render('dinosaurs/edit.ejs',{myDino:dinoData[dinoIndex],dinoIdx:dinoIndex})
+    
+})
+router.put('/:idx',(req,res)=>{
+    let dinosaurs=fs.readFileSync('./dinosaurs.json')
+    let dinoData=JSON.parse(dinosaurs)
+    dinoData[req.params.idx].name=req.body.name
+    dinoData[req.params.idx].type=req.body.type
+    //save the editted dinosaurs to the json file
+    fs.writeFileSync('./dinosaurs.json',JSON.stringify(dinoData))
+    //render page with data of the specified
+    res.redirect('/dinosaurs')
+})
 router.get('/:idx',(req,res)=>{
     let dinosaurs=fs.readFileSync('./dinosaurs.json')
     console.log(dinosaurs)
@@ -48,5 +68,6 @@ router.delete('/:idx',(req,res)=>{
     console.log('delete')
     res.redirect('/dinosaurs')
 })
+
 
 module.exports=router
